@@ -7,19 +7,21 @@ namespace Xo.Gui
 {
     public partial class XoGameGui : UserControl
     {
+        private readonly XoGame _game;
         private int _buttonWidth;
         private int _buttonHeight;
 
-        public XoGameGui()
+        public XoGameGui(XoGame game)
         {
+            _game = game;
             InitializeComponent();
         }
 
-        public void UpdateGame(XoGame game)
+        public void UpdateGame()
         {
             SetButtonDimensions();
             Controls.Clear();
-            var tables = game.Tables;
+            var tables = _game.Tables;
             for (var i = 0; i < 3; i++)
             {
                 for (var j = 0; j < 3; j++)
@@ -29,9 +31,7 @@ namespace Xo.Gui
                     {
                         for (var jj = 0; jj < table.Length; jj++)
                         {
-                            var buttonXLocation = i * (3 * _buttonWidth) + ii * _buttonWidth;
-                            var buttonYLocation = j * (3 * _buttonHeight) + jj * _buttonHeight;
-                            AddNewButtonToWithValue(buttonXLocation, buttonYLocation, table[ii, jj]);
+                            AddNewButtonToWithValue(i, j, ii, jj, table[ii, jj]);
                         }
                     }
                 }
@@ -44,14 +44,28 @@ namespace Xo.Gui
             _buttonHeight = Height / 12;
         }
 
-        private void AddNewButtonToWithValue(int pX, int pY, XoValue xoValue)
+        private void AddNewButtonToWithValue(int i, int j, int ii, int jj, XoValue xoValue)
         {
+            var buttonXLocation = i * (3 * _buttonWidth) + ii * _buttonWidth;
+            var buttonYLocation = j * (3 * _buttonHeight) + jj * _buttonHeight;
+
             var button = new Button
             {
                 Size = new Size(_buttonWidth, _buttonHeight),
-                Location = new Point(pX, pY),
+                Location = new Point(buttonXLocation, buttonYLocation),
                 BackColor = GetColorForValue(xoValue),
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                Tag = string.Format("{0}{1}{2}{3}", i, j, ii, jj)
+            };
+            button.Click += (s, e) =>
+            {
+                var btn = (Button)s;
+                var text = btn.Tag.ToString();
+                var coordX = int.Parse(text[2].ToString());
+                var coordY = int.Parse(text[3].ToString());
+
+                _game.MarkCurrentTableOn(new XoPoint(coordX, coordY));
+                UpdateGame();
             };
             Controls.Add(button);
         }
