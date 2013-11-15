@@ -1,4 +1,4 @@
-﻿namespace XoClient
+﻿namespace Xo.Client
 {
     partial class Form1
     {

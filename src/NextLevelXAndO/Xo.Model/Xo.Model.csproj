@@ -33,7 +33,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Player.cs" />
     <Compile Include="XoPoint.cs" />
+    <Compile Include="XoSpace.cs" />
     <Compile Include="XoTable.cs" />
     <Compile Include="XoValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

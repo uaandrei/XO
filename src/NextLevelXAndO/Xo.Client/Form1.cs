@@ -2,9 +2,8 @@
 using System.Windows.Forms;
 using Xo.Business;
 using Xo.Gui;
-using Xo.Model;
 
-namespace XoClient
+namespace Xo.Client
 {
     public partial class Form1 : Form
     {

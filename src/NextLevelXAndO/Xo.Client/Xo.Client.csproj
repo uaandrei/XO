@@ -7,8 +7,8 @@
     <ProjectGuid>{AA568FBD-58FB-4C7E-9568-6B5F9BDE2834}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XoClient</RootNamespace>
-    <AssemblyName>XoClient</AssemblyName>
+    <RootNamespace>Xo.Client</RootNamespace>
+    <AssemblyName>Xo.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,6 +63,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

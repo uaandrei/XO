@@ -1,36 +1,28 @@
-﻿namespace Xo.Model
+﻿using System.Collections.Generic;
+
+namespace Xo.Model
 {
-    public class XoTable
+    public class XoTable : XoSpace
     {
-        private readonly int[,] _xoMatrix;
-        private readonly XoValue _state;
+        private readonly List<XoSpace> _xoSpaces;
 
-        public readonly int Length = 3;
-
-        public XoValue State
+        public List<XoSpace> XoSpaces
         {
             get
             {
-                return _state;
+                return _xoSpaces;
             }
         }
 
-        public XoValue this[int i, int j]
+        public XoTable(XoPoint position)
+            : base(position, null)
         {
-            get
-            {
-                return (XoValue)_xoMatrix[i, j];
-            }
-            set
-            {
-                _xoMatrix[i, j] = (int)value;
-            }
+            _xoSpaces = new List<XoSpace>();
         }
 
-        public XoTable()
+        public void AddSpace(XoSpace xoSpace)
         {
-            _xoMatrix = new int[Length, Length];
-            _state = XoValue.FreeSpace;
+            XoSpaces.Add(xoSpace);
         }
     }
 }

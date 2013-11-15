@@ -1,40 +1,53 @@
-﻿using Xo.Model;
+﻿using System.Collections.Generic;
+using Xo.Model;
 
 namespace Xo.Business
 {
     public class XoGame
     {
-        private readonly XoTable[,] _xoTables;
-        private XoPoint _currentTable;
-        private int _currentPlayer;
-
-        public XoTable[,] Tables
+        public List<XoTable> Tables
         {
-            get
-            {
-                return _xoTables;
-            }
+            get;
+            private set;
         }
 
-        public XoGame(int currentPlayer)
+        public List<XoSpace> Spaces
         {
-            _xoTables = new XoTable[3, 3];
+            get;
+            private set;
+        }
+
+        public XoGame()
+        {
+            SetupXoTables();
+        }
+
+        private void SetupXoTables()
+        {
+            Tables = new List<XoTable>();
+            Spaces = new List<XoSpace>();
             for (var i = 0; i < 3; i++)
             {
                 for (var j = 0; j < 3; j++)
                 {
-                    _xoTables[i, j] = new XoTable();
+                    var table = new XoTable(new XoPoint(i, j));
+                    Tables.Add(table);
+                    SetupSpacesForTable(table);
                 }
             }
-            _currentTable = new XoPoint(0, 0);
-            _currentPlayer = currentPlayer;
         }
 
-        public void MarkCurrentTableOn(XoPoint pointToMark)
+        private void SetupSpacesForTable(XoTable table)
         {
-            _xoTables[_currentTable.X, _currentTable.Y][pointToMark.X, pointToMark.Y] = (XoValue)_currentPlayer + 1;
-            _currentPlayer = (_currentPlayer + 1) % 2;
-            _currentTable = pointToMark;
+            for (var i = 0; i < 3; i++)
+            {
+                for (var j = 0; j < 3; j++)
+                {
+                    var space = new XoSpace(new XoPoint(i, j), table);
+                    table.AddSpace(space);
+                    Spaces.Add(space);
+                }
+            }
         }
     }
 }

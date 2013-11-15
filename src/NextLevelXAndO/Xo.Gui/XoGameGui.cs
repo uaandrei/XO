@@ -21,20 +21,9 @@ namespace Xo.Gui
         {
             SetButtonDimensions();
             Controls.Clear();
-            var tables = _game.Tables;
-            for (var i = 0; i < 3; i++)
+            foreach (var xoSpace in _game.Spaces)
             {
-                for (var j = 0; j < 3; j++)
-                {
-                    var table = tables[i, j];
-                    for (var ii = 0; ii < table.Length; ii++)
-                    {
-                        for (var jj = 0; jj < table.Length; jj++)
-                        {
-                            AddNewButtonToWithValue(i, j, ii, jj, table[ii, jj]);
-                        }
-                    }
-                }
+                AddNewButtonToWithValue(xoSpace, XoValue.FreeSpace);
             }
         }
 
@@ -44,10 +33,10 @@ namespace Xo.Gui
             _buttonHeight = Height / 12;
         }
 
-        private void AddNewButtonToWithValue(int i, int j, int ii, int jj, XoValue xoValue)
+        private void AddNewButtonToWithValue(XoSpace xoSpace, XoValue xoValue)
         {
-            var buttonXLocation = i * (3 * _buttonWidth) + ii * _buttonWidth;
-            var buttonYLocation = j * (3 * _buttonHeight) + jj * _buttonHeight;
+            var buttonXLocation = xoSpace.Parent.Position.X * (3 * _buttonWidth) + xoSpace.Position.X * _buttonWidth;
+            var buttonYLocation = xoSpace.Parent.Position.Y * (3 * _buttonHeight) + xoSpace.Position.Y * _buttonHeight;
 
             var button = new Button
             {
@@ -55,16 +44,14 @@ namespace Xo.Gui
                 Location = new Point(buttonXLocation, buttonYLocation),
                 BackColor = GetColorForValue(xoValue),
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
-                Tag = string.Format("{0}{1}{2}{3}", i, j, ii, jj)
+                Tag = xoSpace
             };
             button.Click += (s, e) =>
             {
                 var btn = (Button)s;
-                var text = btn.Tag.ToString();
-                var coordX = int.Parse(text[2].ToString());
-                var coordY = int.Parse(text[3].ToString());
-
-                _game.MarkCurrentTableOn(new XoPoint(coordX, coordY));
+                var space = (XoSpace)btn.Tag;
+                var player = new Player(XoValue.OccupiedByFirstPlayer);
+                space.Mark();
                 UpdateGame();
             };
             Controls.Add(button);
