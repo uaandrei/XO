@@ -7,20 +7,16 @@ namespace Xo.Gui
 {
     public partial class XoGameGui : UserControl
     {
-        private readonly XoGame _game;
-
-        public XoGameGui(XoGame game)
+        public XoGameGui()
         {
-            _game = game;
             InitializeComponent();
         }
 
         private void XoGameGui_Load(object sender, System.EventArgs e)
         {
-            UpdateGame();
         }
 
-        public void UpdateGame()
+        public void UpdateGame(XoGame _game)
         {
             Controls.Clear();
             var tableWidth = Width / 3;
@@ -53,7 +49,7 @@ namespace Xo.Gui
                         }
                         var btn = (Button)s;
                         var sp = (XoSpace)btn.Tag;
-                        sp.Mark(new Player(XoValue.OccupiedByFirstPlayer));
+                        _game.MarkSpace(sp);
                         btn.BackColor = GetColorForValue(sp.Value);
                         var parentPanel = btn.Parent;
                         parentPanel.BackColor = Color.Black;
@@ -66,9 +62,9 @@ namespace Xo.Gui
         {
             switch (xoValue)
             {
-                case XoValue.OccupiedByFirstPlayer:
+                case XoValue.FirstPlayer:
                     return Color.Blue;
-                case XoValue.OccupiedBySecondPlayer:
+                case XoValue.SecondPlayer:
                     return Color.Red;
                 default:
                     return Color.Gray;

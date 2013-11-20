@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Xo.Model;
 
 namespace Xo.Business
 {
+    [DataContract]
     public class XoGame
     {
+        private readonly Player _player;
+
         public List<XoTable> Tables
         {
             get;
@@ -17,9 +21,15 @@ namespace Xo.Business
             private set;
         }
 
-        public XoGame()
+        public XoGame(Player player)
         {
+            _player = player;
             SetupXoTables();
+        }
+
+        public void MarkSpace(XoSpace space)
+        {
+            space.Mark(_player);
         }
 
         private void SetupXoTables()

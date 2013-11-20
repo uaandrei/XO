@@ -3,7 +3,7 @@
     public enum XoValue
     {
         FreeSpace = 0,
-        OccupiedByFirstPlayer,
-        OccupiedBySecondPlayer
+        FirstPlayer,
+        SecondPlayer
     }
 }
