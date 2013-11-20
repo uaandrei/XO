@@ -7,12 +7,12 @@ namespace Xo.Client
 {
     public partial class Form1 : Form
     {
-        private XoGameGui _xoGameGui;
+        private readonly XoGameGui _xoGameGui;
 
         public Form1()
         {
             InitializeComponent();
-            _xoGameGui = new XoGameGui(new XoGame(0))
+            _xoGameGui = new XoGameGui(new XoGame())
             {
                 Dock = DockStyle.Fill
             };

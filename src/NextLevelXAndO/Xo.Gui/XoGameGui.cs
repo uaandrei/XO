@@ -8,8 +8,6 @@ namespace Xo.Gui
     public partial class XoGameGui : UserControl
     {
         private readonly XoGame _game;
-        private int _buttonWidth;
-        private int _buttonHeight;
 
         public XoGameGui(XoGame game)
         {
@@ -17,44 +15,51 @@ namespace Xo.Gui
             InitializeComponent();
         }
 
+        private void XoGameGui_Load(object sender, System.EventArgs e)
+        {
+            UpdateGame();
+        }
+
         public void UpdateGame()
         {
-            SetButtonDimensions();
             Controls.Clear();
-            foreach (var xoSpace in _game.Spaces)
+            var tableWidth = Width / 3;
+            var tableHeight = Height / 3;
+            foreach (var table in _game.Tables)
             {
-                AddNewButtonToWithValue(xoSpace, XoValue.FreeSpace);
+                var panel = new Panel
+                {
+                    Size = new Size(tableWidth, tableHeight),
+                    Location = new Point(table.Position.X * tableWidth, table.Position.Y * tableHeight),
+                    Tag = table
+                };
+                Controls.Add(panel);
+                var buttonWidth = panel.Width / 3;
+                var buttonHeight = panel.Height / 3;
+                foreach (var space in table.XoSpaces)
+                {
+                    var button = new Button
+                    {
+                        Size = new Size(buttonWidth, buttonHeight),
+                        Location = new Point(space.Position.X * buttonWidth, space.Position.Y * buttonHeight),
+                        Tag = space
+                    };
+                    panel.Controls.Add(button);
+                    button.Click += (s, e) =>
+                    {
+                        foreach(Control control in Controls)
+                        {
+                            control.BackColor = SystemColors.Control;
+                        }
+                        var btn = (Button)s;
+                        var sp = (XoSpace)btn.Tag;
+                        sp.Mark(new Player(XoValue.OccupiedByFirstPlayer));
+                        btn.BackColor = GetColorForValue(sp.Value);
+                        var parentPanel = btn.Parent;
+                        parentPanel.BackColor = Color.Black;
+                    };
+                }
             }
-        }
-
-        private void SetButtonDimensions()
-        {
-            _buttonWidth = Width / 12;
-            _buttonHeight = Height / 12;
-        }
-
-        private void AddNewButtonToWithValue(XoSpace xoSpace, XoValue xoValue)
-        {
-            var buttonXLocation = xoSpace.Parent.Position.X * (3 * _buttonWidth) + xoSpace.Position.X * _buttonWidth;
-            var buttonYLocation = xoSpace.Parent.Position.Y * (3 * _buttonHeight) + xoSpace.Position.Y * _buttonHeight;
-
-            var button = new Button
-            {
-                Size = new Size(_buttonWidth, _buttonHeight),
-                Location = new Point(buttonXLocation, buttonYLocation),
-                BackColor = GetColorForValue(xoValue),
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
-                Tag = xoSpace
-            };
-            button.Click += (s, e) =>
-            {
-                var btn = (Button)s;
-                var space = (XoSpace)btn.Tag;
-                var player = new Player(XoValue.OccupiedByFirstPlayer);
-                space.Mark();
-                UpdateGame();
-            };
-            Controls.Add(button);
         }
 
         private Color GetColorForValue(XoValue xoValue)

@@ -49,7 +49,7 @@ namespace Xo.Model
         private void RaiseOnMarkedEvent()
         {
             if (Marked != null)
-                Marked(this, EventArgs.Empty);
+                Marked(_value, EventArgs.Empty);
         }
     }
 }
