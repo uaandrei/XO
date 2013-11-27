@@ -22,6 +22,10 @@ namespace Xo.Model
             {
                 return _value;
             }
+            set
+            {
+                _value = value;
+            }
         }
 
         public XoTable Parent
@@ -49,7 +53,12 @@ namespace Xo.Model
         private void RaiseOnMarkedEvent()
         {
             if (Marked != null)
-                Marked(_value, EventArgs.Empty);
+                Marked(this, EventArgs.Empty);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("X:{0}, Y:{1}, Value: {2}", Position.X, Position.Y, Value);
         }
     }
 }

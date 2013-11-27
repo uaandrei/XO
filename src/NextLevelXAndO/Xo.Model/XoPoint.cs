@@ -27,5 +27,15 @@
             Y = y;
             Value = XoValue.FreeSpace;
         }
+
+        public static bool operator ==(XoPoint a, XoPoint b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
+
+        public static bool operator !=(XoPoint a, XoPoint b)
+        {
+            return !(a == b);
+        }
     }
 }

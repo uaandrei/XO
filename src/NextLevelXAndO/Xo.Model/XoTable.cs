@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Xo.Model
 {
+    [DataContract]
     public class XoTable : XoSpace
     {
         private readonly List<XoSpace> _xoSpaces;

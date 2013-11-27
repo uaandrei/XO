@@ -68,6 +68,10 @@
       <Project>{C7038A19-6ED5-4D7A-AEA7-C1D218AE863C}</Project>
       <Name>Xo.Gui</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xo.Model\Xo.Model.csproj">
+      <Project>{FB042DDA-8096-422A-8BD1-AE1C1DB02346}</Project>
+      <Name>Xo.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\WCF\Microsoft.VisualStudio.ServiceModel.targets" />

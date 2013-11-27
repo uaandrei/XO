@@ -7,8 +7,14 @@ namespace Xo.Gui
 {
     public partial class XoGameGui : UserControl
     {
-        public XoGameGui()
+        private readonly Player _player;
+
+        private readonly XoGame _xoGame;
+
+        public XoGameGui(Player player, XoGame xoGame)
         {
+            _player = player;
+            _xoGame = xoGame;
             InitializeComponent();
         }
 
@@ -16,19 +22,24 @@ namespace Xo.Gui
         {
         }
 
-        public void UpdateGame(XoGame _game)
+        public void UpdateGame(int spaceNo, int value)
         {
+            _xoGame.Spaces[spaceNo].Value = (XoValue)value;
             Controls.Clear();
             var tableWidth = Width / 3;
             var tableHeight = Height / 3;
-            foreach (var table in _game.Tables)
+            foreach (var table in _xoGame.Tables)
             {
                 var panel = new Panel
                 {
                     Size = new Size(tableWidth, tableHeight),
-                    Location = new Point(table.Position.X * tableWidth, table.Position.Y * tableHeight),
+                    Location = new Point(table.Position.Y * tableWidth, table.Position.X * tableHeight),
                     Tag = table
                 };
+                if (table.Position == _xoGame.Spaces[spaceNo].Position)
+                {
+                    panel.BackColor = Color.Black;
+                }
                 Controls.Add(panel);
                 var buttonWidth = panel.Width / 3;
                 var buttonHeight = panel.Height / 3;
@@ -37,22 +48,22 @@ namespace Xo.Gui
                     var button = new Button
                     {
                         Size = new Size(buttonWidth, buttonHeight),
-                        Location = new Point(space.Position.X * buttonWidth, space.Position.Y * buttonHeight),
-                        Tag = space
+                        Location = new Point(space.Position.Y * buttonWidth, space.Position.X * buttonHeight),
+                        Tag = space,
+                        BackColor = GetColorForValue(space.Value)
                     };
                     panel.Controls.Add(button);
                     button.Click += (s, e) =>
                     {
-                        foreach(Control control in Controls)
+                        foreach (Control control in Controls)
                         {
                             control.BackColor = SystemColors.Control;
                         }
                         var btn = (Button)s;
                         var sp = (XoSpace)btn.Tag;
-                        _game.MarkSpace(sp);
+                        _xoGame.MarkSpace(sp, _player);
                         btn.BackColor = GetColorForValue(sp.Value);
-                        var parentPanel = btn.Parent;
-                        parentPanel.BackColor = Color.Black;
+                        btn.Parent.BackColor = Color.Black;
                     };
                 }
             }

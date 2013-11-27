@@ -1,17 +1,17 @@
-﻿using Xo.Business;
+﻿using System.ServiceModel;
 
 namespace Xo.Service
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class XoGameService : IXoGameService
     {
         private XoGameForm _xoGameForm;
 
-        public XoGame UpdateGame(XoGame xoGame)
+        public int[] UpdateGame(int[] data)
         {
-            _xoGameForm.UpdateGame(xoGame);
+            _xoGameForm.UpdateGame(data[0], data[1]);
             _xoGameForm.ShowDialog();
-            return xoGame;
+            return _xoGameForm.Data;
         }
 
         public void StartGame()

@@ -1,5 +1,4 @@
 ﻿using System.ServiceModel;
-using Xo.Business;
 
 namespace Xo.Service
 {
@@ -8,9 +7,9 @@ namespace Xo.Service
     public interface IXoGameService
     {
         [OperationContract]
-        XoGame UpdateGame(XoGame value);
+        int[] UpdateGame(int[] data);
 
         [OperationContract]
-        void  StartGame();
+        void StartGame();
     }
 }

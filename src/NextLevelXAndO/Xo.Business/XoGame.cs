@@ -7,8 +7,6 @@ namespace Xo.Business
     [DataContract]
     public class XoGame
     {
-        private readonly Player _player;
-
         public List<XoTable> Tables
         {
             get;
@@ -21,15 +19,14 @@ namespace Xo.Business
             private set;
         }
 
-        public XoGame(Player player)
+        public XoGame()
         {
-            _player = player;
             SetupXoTables();
         }
 
-        public void MarkSpace(XoSpace space)
+        public void MarkSpace(XoSpace space, Player player)
         {
-            space.Mark(_player);
+            space.Mark(player);
         }
 
         private void SetupXoTables()
