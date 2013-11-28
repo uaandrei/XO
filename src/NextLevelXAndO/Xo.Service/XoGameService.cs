@@ -2,7 +2,7 @@
 
 namespace Xo.Service
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single, AddressFilterMode = AddressFilterMode.Any)]
     public class XoGameService : IXoGameService
     {
         private XoGameForm _xoGameForm;
